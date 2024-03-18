@@ -1,0 +1,7 @@
+{
+  "name": "asc-v2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
