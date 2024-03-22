@@ -13,6 +13,7 @@ import { addictions } from "../models/addictions";
 import { useContext } from "react";
 import { storageSet } from "../models/storage";
 import { PreferencesContext } from "../App";
+import { AboutModal } from "../modals/AboutModal";
 
 const Menu: React.FC = () => {
   const { preferences, setPreferences } = useContext(PreferencesContext);
@@ -37,7 +38,7 @@ const Menu: React.FC = () => {
         <IonList className="ion-margin-bottom">
           <IonItem>Activation des informations suivies</IonItem>
         </IonList>
-        <IonList>
+        <IonList className="ion-margin-bottom">
           <IonItem>
             <IonToggle
               checked={preferences ? preferences["sleep"] : false}
@@ -63,7 +64,12 @@ const Menu: React.FC = () => {
             );
           })}
         </IonList>
+        <IonList>
+          <IonItem id="open-about-modal">à propos</IonItem>
+        </IonList>
       </IonContent>
+      {/* The modal should probably be pages but :shrug: */}
+      <AboutModal />
     </IonMenu>
   );
 };
