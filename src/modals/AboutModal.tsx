@@ -21,7 +21,7 @@ export function AboutModal() {
               Retour
             </IonButton>
           </IonButtons>
-          <IonTitle>à propos</IonTitle>
+          <IonTitle>À propos</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

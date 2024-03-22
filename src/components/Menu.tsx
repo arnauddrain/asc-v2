@@ -14,6 +14,7 @@ import { useContext } from "react";
 import { storageSet } from "../models/storage";
 import { PreferencesContext } from "../App";
 import { AboutModal } from "../modals/AboutModal";
+import { NotificationsModal } from "../modals/NotificationsModal";
 
 const Menu: React.FC = () => {
   const { preferences, setPreferences } = useContext(PreferencesContext);
@@ -65,10 +66,12 @@ const Menu: React.FC = () => {
           })}
         </IonList>
         <IonList>
-          <IonItem id="open-about-modal">à propos</IonItem>
+          <IonItem id="open-notifications-modal">Notifications</IonItem>
+          <IonItem id="open-about-modal">À propos</IonItem>
         </IonList>
       </IonContent>
-      {/* The modal should probably be pages but :shrug: */}
+      {/* The modals should probably be pages but :shrug: */}
+      <NotificationsModal />
       <AboutModal />
     </IonMenu>
   );
