@@ -15,7 +15,7 @@ export interface Day {
   }[];
   nightBreaks: {
     duration: number;
-    type: string;
+    type: number;
     time: string;
   }[];
   hypnotic: string;

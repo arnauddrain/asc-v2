@@ -123,7 +123,7 @@ if (window.sqlitePlugin) {
                           })),
                           nightBreaks: nightBreaks.map((nb: any) => ({
                             duration: nb.duration,
-                            type: nb.type,
+                            type: Number(nb.type),
                             time: nb.time,
                           })),
                           hypnotic: dayRow.hypnotic,

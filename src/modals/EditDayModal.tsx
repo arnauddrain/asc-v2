@@ -72,6 +72,31 @@ export function EditDayModal({
     }
   }
 
+  function addNightBreak(type: number) {
+    if (day) {
+      setDay({
+        ...day,
+        nightBreaks: [
+          ...day.nightBreaks,
+          {
+            type: type,
+            time: "00:00",
+            duration: 0,
+          },
+        ],
+      });
+    }
+  }
+
+  function deleteNightBreak(index: number) {
+    if (day) {
+      setDay({
+        ...day,
+        nightBreaks: day.nightBreaks.filter((_, i) => i !== index),
+      });
+    }
+  }
+
   return (
     <IonModal isOpen={isOpen}>
       <IonHeader>
@@ -257,6 +282,92 @@ export function EditDayModal({
                         </IonCol>
                       </IonRow>
                     )}
+                    {day.nightBreaks.map((nightBreak, index) => (
+                      <IonRow key={index}>
+                        <IonCol>
+                          <IonItem>
+                            <IonLabel>
+                              {nightBreak.type === 0
+                                ? "Heure du réveil nocture"
+                                : "Heure de la sieste"}
+                            </IonLabel>
+                            <IonDatetimeButton
+                              datetime={`nightBreak${index}`}
+                            ></IonDatetimeButton>
+                            <IonModal keepContentsMounted={true}>
+                              <IonDatetime
+                                id={`nightBreak${index}`}
+                                presentation="time"
+                                value={nightBreak.time}
+                                onIonChange={(e) =>
+                                  setDay({
+                                    ...day,
+                                    nightBreaks: day.nightBreaks.map((nb, i) =>
+                                      i === index
+                                        ? {
+                                            ...nb,
+                                            time:
+                                              e.detail.value?.toString() ?? "",
+                                          }
+                                        : nb
+                                    ),
+                                  })
+                                }
+                              />
+                            </IonModal>
+                          </IonItem>
+                        </IonCol>
+                        <IonCol>
+                          <IonItem>
+                            <IonLabel>
+                              {nightBreak.type === 0
+                                ? "Durée du réveil"
+                                : "Durée de la sieste"}
+                            </IonLabel>
+                            <IonSelect
+                              value={nightBreak.duration}
+                              onIonChange={(e) =>
+                                setDay({
+                                  ...day,
+                                  nightBreaks: day.nightBreaks.map((nb, i) =>
+                                    i === index
+                                      ? {
+                                          ...nb,
+                                          duration: e.detail.value,
+                                        }
+                                      : nb
+                                  ),
+                                })
+                              }
+                            >
+                              {incrementValues.map((number) => (
+                                <IonSelectOption value={number} key={number}>
+                                  {number >= 60
+                                    ? Math.floor(number / 60) + " heures "
+                                    : ""}
+                                  {number >= 60 && number % 60 ? "et " : ""}
+                                  {number === 0 || number % 60
+                                    ? (number % 60) + " minutes"
+                                    : ""}
+                                </IonSelectOption>
+                              ))}
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+
+                        <IonCol onClick={() => deleteNightBreak(index)}>
+                          X
+                        </IonCol>
+                      </IonRow>
+                    ))}
+                    <IonRow>
+                      <IonCol onClick={() => addNightBreak(0)}>
+                        + Ajouter un réveil dans la nuit
+                      </IonCol>
+                      <IonCol onClick={() => addNightBreak(1)}>
+                        + Ajouter une sieste
+                      </IonCol>
+                    </IonRow>
                   </>
                 )}
               </IonCardContent>
