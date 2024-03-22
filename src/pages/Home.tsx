@@ -106,7 +106,7 @@ export function Home() {
                     <IonRow>
                       <IonCol>Sommeil</IonCol>
                       <IonCol>
-                        {day.sleep_filled ? (
+                        {!day.sleep_filled ? (
                           <i>Non rempli</i>
                         ) : day.sleepless ? (
                           <i>Nuit Blanche</i>
@@ -156,7 +156,9 @@ function AddictionRow({ addiction, day }: { addiction: Addiction; day: Day }) {
     (da) => da.addiction === addiction.id
   );
   if (!dayAddiction) {
-    console.error("Data not found, this should not happen");
+    console.error(
+      `Data not found for ${addiction.name}, this should not happen`
+    );
     return null;
   }
 

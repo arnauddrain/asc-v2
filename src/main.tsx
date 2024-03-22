@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { storageGet, storageSet } from "./models/storage";
 import { Day } from "./models/days";
+import { Preferences } from "./models/addictions";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -26,8 +27,6 @@ function addictionActivated(addictions: any[], name: string) {
 }
 
 function find(data: any[], field: string, value: string) {
-  console.log("find", field, value);
-  console.log("test", data[0]);
   const res = [];
   for (let i = 0; i < data.length; i++) {
     // @ts-ignore
@@ -38,6 +37,18 @@ function find(data: any[], field: string, value: string) {
   }
   return res;
 }
+
+const addictionNameToId = {
+  Ecrans: "screen",
+  Jeux: "games",
+  Nourriture: "food",
+  Depenses: "expenses",
+  Tabac: "tobacco",
+  Alcool: "alcohol",
+  Cannabis: "cannabis",
+  Cocaine: "cocaine",
+  "Hors Prescription": "other",
+};
 
 // @ts-ignore
 if (window.sqlitePlugin) {
@@ -109,6 +120,8 @@ if (window.sqlitePlugin) {
                           dayRow.id
                         );
 
+                        console.log("dayRow", dayRow);
+
                         const day: Day = {
                           bedtime: dayRow.bedtime,
                           bedtime_duration: dayRow.bedtime_duration,
@@ -119,7 +132,8 @@ if (window.sqlitePlugin) {
                             evening: da.evening === "true",
                             afternoon: da.afternoon === "true",
                             value: da.value,
-                            addiction: da.name,
+                            // @ts-ignore
+                            addiction: addictionNameToId[da.name],
                           })),
                           nightBreaks: nightBreaks.map((nb: any) => ({
                             duration: nb.duration,
