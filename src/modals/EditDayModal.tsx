@@ -23,14 +23,10 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { frenchMonth } from "../libs/date";
-import { useEffect, useState } from "react";
-import {
-  Addiction,
-  Preferences,
-  addictions,
-  getPreferences,
-} from "../models/addictions";
+import { useContext, useEffect, useState } from "react";
+import { Addiction, addictions } from "../models/addictions";
 import { Day, getDay, saveDay } from "../models/days";
+import { PreferencesContext } from "../App";
 
 const incrementValues = [
   0, 5, 10, 15, 20, 25, 30, 45, 60, 75, 90, 105, 120, 150, 180, 210, 240,
@@ -45,14 +41,8 @@ export function EditDayModal({
   setIsOpen: (value: boolean) => void;
   currentDate: string;
 }) {
-  const [preferences, setPreferences] = useState<Preferences>();
+  const { preferences } = useContext(PreferencesContext);
   const [day, setDay] = useState<Day>();
-
-  useEffect(() => {
-    getPreferences().then((preferences) => {
-      setPreferences(preferences);
-    });
-  }, [currentDate]);
 
   useEffect(() => {
     if (currentDate) {
@@ -98,7 +88,7 @@ export function EditDayModal({
   }
 
   return (
-    <IonModal isOpen={isOpen}>
+    <IonModal isOpen={isOpen} onWillDismiss={() => setIsOpen(false)}>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -319,12 +309,12 @@ export function EditDayModal({
                         </IonCol>
                         <IonCol>
                           <IonItem>
-                            <IonLabel>
-                              {nightBreak.type === 0
-                                ? "Durée du réveil"
-                                : "Durée de la sieste"}
-                            </IonLabel>
                             <IonSelect
+                              label={
+                                nightBreak.type === 0
+                                  ? "Durée du réveil"
+                                  : "Durée de la sieste"
+                              }
                               value={nightBreak.duration}
                               onIonChange={(e) =>
                                 setDay({
@@ -373,15 +363,16 @@ export function EditDayModal({
               </IonCardContent>
             </IonCard>
           )}
-          {addictions.map((addiction) =>
-            preferences[addiction.id] ? (
-              <AddictionCard
-                key={addiction.id}
-                addiction={addiction}
-                day={day}
-                setDay={setDay}
-              />
-            ) : null
+          {addictions.map(
+            (addiction) =>
+              preferences[addiction.id] && (
+                <AddictionCard
+                  key={addiction.id}
+                  addiction={addiction}
+                  day={day}
+                  setDay={setDay}
+                />
+              )
           )}
           <IonCard>
             <IonCardHeader>Note</IonCardHeader>
@@ -463,13 +454,13 @@ function AddictionCard({
           <IonRow>
             <IonCol>{addiction.question}</IonCol>
             <IonCol>
-              {dayAddiction.value} {addiction.unit}
+              {dayAddiction.value / 100} {addiction.unit}
             </IonCol>
           </IonRow>
         </IonGrid>
         <IonRange
-          max={addiction.max}
-          step={addiction.step}
+          max={addiction.max * 100}
+          step={addiction.step * 100}
           value={dayAddiction.value}
           onIonInput={(e) =>
             update({ ...dayAddiction, value: Number(e.detail.value) })

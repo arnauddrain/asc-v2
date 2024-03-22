@@ -4,6 +4,7 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
+  IonCol,
   IonContent,
   IonGrid,
   IonHeader,
@@ -13,13 +14,16 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { storageGet, storageSet } from "../models/storage";
 import { Day } from "../models/days";
 import { frenchMonth, storageDate } from "../libs/date";
 import { EditDayModal } from "../modals/EditDayModal";
+import { PreferencesContext } from "../App";
+import { Addiction, addictions } from "../models/addictions";
 
 export function Home() {
+  const { preferences } = useContext(PreferencesContext);
   const [days, setDays] = useState<Day[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
@@ -98,7 +102,37 @@ export function Home() {
                 <IonButton>Remplir maintenant</IonButton>
               ) : (
                 <IonGrid>
-                  <IonRow>Ce jour existe</IonRow>
+                  {preferences?.sleep && (
+                    <IonRow>
+                      <IonCol>Sommeil</IonCol>
+                      <IonCol>
+                        {day.sleep_filled ? (
+                          <i>Non rempli</i>
+                        ) : day.sleepless ? (
+                          <i>Nuit Blanche</i>
+                        ) : (
+                          <div>Du sommeil et une barre</div>
+                        )}
+                      </IonCol>
+                      {day.with_hypnotic && <IonRow>avec hypnotique</IonRow>}
+                    </IonRow>
+                  )}
+                  {addictions.map(
+                    (addiction) =>
+                      preferences?.[addiction.id] && (
+                        <AddictionRow
+                          day={day}
+                          addiction={addiction}
+                          key={addiction.id}
+                        />
+                      )
+                  )}
+                  {day.note && (
+                    <IonRow>
+                      <IonCol>Note</IonCol>
+                      <IonCol>{day.note}</IonCol>
+                    </IonRow>
+                  )}
                 </IonGrid>
               )}
             </IonCardContent>
@@ -114,5 +148,24 @@ export function Home() {
         currentDate={currentDate}
       />
     </IonPage>
+  );
+}
+
+function AddictionRow({ addiction, day }: { addiction: Addiction; day: Day }) {
+  const dayAddiction = day.dayAddictions.find(
+    (da) => da.addiction === addiction.id
+  );
+  if (!dayAddiction) {
+    console.error("Data not found, this should not happen");
+    return null;
+  }
+
+  return (
+    <IonRow key={addiction.id}>
+      <IonCol>{addiction.name}</IonCol>
+      <IonCol>
+        {dayAddiction.value / 100} {addiction.unit}
+      </IonCol>
+    </IonRow>
   );
 }

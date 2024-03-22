@@ -27,21 +27,38 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { createContext, useEffect, useState } from "react";
+import { Preferences, getPreferences } from "./models/addictions";
 
 setupIonicReact();
 
+export const PreferencesContext = createContext<{
+  preferences: Preferences | undefined;
+  setPreferences: (preferences: Preferences) => void;
+}>({ preferences: undefined, setPreferences: () => {} });
+
 const App: React.FC = () => {
+  const [preferences, setPreferences] = useState<Preferences>();
+
+  useEffect(() => {
+    getPreferences().then((preferences) => {
+      setPreferences(preferences);
+    });
+  });
+
   return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
-          <Menu />
-          {/* @ts-expect-error (https://github.com/ionic-team/ionic-framework/issues/29170) */}
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Home />
-            </Route>
-          </IonRouterOutlet>
+          <PreferencesContext.Provider value={{ preferences, setPreferences }}>
+            <Menu />
+            {/* @ts-expect-error (https://github.com/ionic-team/ionic-framework/issues/29170) */}
+            <IonRouterOutlet id="main">
+              <Route path="/" exact={true}>
+                <Home />
+              </Route>
+            </IonRouterOutlet>
+          </PreferencesContext.Provider>
         </IonSplitPane>
       </IonReactRouter>
     </IonApp>

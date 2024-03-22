@@ -9,18 +9,13 @@ import {
   IonToolbar,
 } from "@ionic/react";
 
-import { Preferences, addictions, getPreferences } from "../models/addictions";
-import { useEffect, useState } from "react";
-import { storageGet, storageSet } from "../models/storage";
+import { addictions } from "../models/addictions";
+import { useContext } from "react";
+import { storageSet } from "../models/storage";
+import { PreferencesContext } from "../App";
 
 const Menu: React.FC = () => {
-  const [preferences, setPreferences] = useState<Preferences>();
-
-  useEffect(() => {
-    getPreferences().then((result) => {
-      setPreferences(result);
-    });
-  }, []);
+  const { preferences, setPreferences } = useContext(PreferencesContext);
 
   function toggleAddiction(addictionId: string, value: boolean) {
     if (preferences) {
