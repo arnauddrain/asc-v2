@@ -13,7 +13,7 @@ export function storageDate(date: Date): string {
 }
 
 // could obsiously be done via moment or the new libraries of the browser
-export function frenchMonth(index: number) {
+export function frenchMonths(index: number) {
   return [
     "Janvier",
     "Février",

@@ -22,7 +22,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { frenchMonth } from "../libs/date";
+import { frenchMonths } from "../libs/date";
 import { useContext, useEffect, useState } from "react";
 import { Addiction, addictions } from "../models/addictions";
 import { Day, getDay, periods, saveDay } from "../models/days";
@@ -96,7 +96,7 @@ export function EditDayModal({
           </IonButtons>
           <IonTitle>
             {currentDate.split("-")[2]}{" "}
-            {frenchMonth(parseInt(currentDate.split("-")[1]) - 1)}{" "}
+            {frenchMonths(parseInt(currentDate.split("-")[1]) - 1)}{" "}
             {currentDate.split("-")[0]}
           </IonTitle>
           <IonButtons slot="end">

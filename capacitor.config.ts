@@ -1,8 +1,8 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "com.arnaud-drain.asc",
-  appName: "asc-v2",
+  appId: "com.ionicframework.rydan803090",
+  appName: "asc",
   webDir: "dist",
   server: {
     androidScheme: "https",

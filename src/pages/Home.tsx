@@ -24,7 +24,7 @@ import {
   periods,
   sleepDuration,
 } from "../models/days";
-import { frenchMonth, storageDate } from "../libs/date";
+import { frenchMonths, storageDate } from "../libs/date";
 import { EditDayModal } from "../modals/EditDayModal";
 import { PreferencesContext } from "../App";
 import { Addiction, addictions } from "../models/addictions";
@@ -104,7 +104,7 @@ export function Home() {
             <IonCardHeader color={day.fake ? "light" : "primary"}>
               <IonCardTitle>
                 Journée et nuit du {day.date.split("-")[2]}{" "}
-                {frenchMonth(parseInt(day.date.split("-")[1]) - 1)}
+                {frenchMonths(parseInt(day.date.split("-")[1]) - 1)}
               </IonCardTitle>
             </IonCardHeader>
             <IonCardContent class={`${day.fake ? "ion-text-center" : ""}`}>

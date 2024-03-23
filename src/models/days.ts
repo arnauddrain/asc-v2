@@ -85,7 +85,7 @@ export async function getDay(date: string) {
   return day ? day : createDay(date);
 }
 
-export function sleepDuration(day: Day) {
+export function sleepDuration(day: Day, withBreaks = true) {
   if (!day.sleep_filled || day.sleepless) {
     return 0;
   }
@@ -99,13 +99,15 @@ export function sleepDuration(day: Day) {
   ) {
     time += 24 * 60;
   }
-  day.nightBreaks.forEach((nightBreak) => {
-    if (nightBreak.type === 0) {
-      time -= nightBreak.duration;
-    } else {
-      time += nightBreak.duration;
-    }
-  });
+  if (withBreaks) {
+    day.nightBreaks.forEach((nightBreak) => {
+      if (nightBreak.type === 0) {
+        time -= nightBreak.duration;
+      } else {
+        time += nightBreak.duration;
+      }
+    });
+  }
   time -= day.bedtime_duration;
   return time;
 }

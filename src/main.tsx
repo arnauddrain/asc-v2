@@ -53,8 +53,8 @@ const addictionNameToId = {
 // @ts-ignore
 if (window.sqlitePlugin) {
   storageGet("preferences").then((preferences) => {
-    if (false) {
-      //if (preferences) {
+    //if (false) {
+    if (preferences) {
       console.log("We already got the old data");
       startApp();
     } else {
@@ -85,7 +85,6 @@ if (window.sqlitePlugin) {
           };
           storageSet("preferences", preferences).then(() => {
             db.executeSql("SELECT * FROM days", [], function (daysRes: any) {
-              console.log("DATA days", daysRes.rows.length);
               db.executeSql(
                 "SELECT * FROM dayAddictions LEFT JOIN addictions ON addictions.id = id_addiction",
                 [],

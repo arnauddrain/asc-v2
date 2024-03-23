@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">asc</string>
+    <string name="title_activity_main">asc</string>
+    <string name="package_name">com.ionicframework.rydan803090</string>
+    <string name="custom_url_scheme">com.ionicframework.rydan803090</string>
+</resources>

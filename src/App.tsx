@@ -30,6 +30,8 @@ import "./theme/variables.css";
 import { createContext, useEffect, useState } from "react";
 import { Preferences, getPreferences } from "./models/addictions";
 
+import { ScreenOrientation } from "@capacitor/screen-orientation";
+
 setupIonicReact();
 
 export const PreferencesContext = createContext<{
@@ -41,10 +43,11 @@ const App: React.FC = () => {
   const [preferences, setPreferences] = useState<Preferences>();
 
   useEffect(() => {
+    ScreenOrientation.lock({ orientation: "portrait" });
     getPreferences().then((preferences) => {
       setPreferences(preferences);
     });
-  });
+  }, []);
 
   return (
     <IonApp>
