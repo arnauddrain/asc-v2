@@ -28,6 +28,16 @@ export interface Day {
   fake?: boolean;
 }
 
+export const periods: {
+  id: "morning" | "afternoon" | "evening" | "night";
+  name: string;
+}[] = [
+  { id: "morning", name: "Matin" },
+  { id: "afternoon", name: "Après-midi" },
+  { id: "evening", name: "Soirée" },
+  { id: "night", name: "Nuit" },
+];
+
 function createDay(date: string): Day {
   return {
     bedtime: "21:00",

@@ -18,7 +18,12 @@ import {
 } from "@ionic/react";
 import { useContext, useEffect, useState } from "react";
 import { storageGet, storageSet } from "../models/storage";
-import { Day, formatSleepDuration, sleepDuration } from "../models/days";
+import {
+  Day,
+  formatSleepDuration,
+  periods,
+  sleepDuration,
+} from "../models/days";
 import { frenchMonth, storageDate } from "../libs/date";
 import { EditDayModal } from "../modals/EditDayModal";
 import { PreferencesContext } from "../App";
@@ -94,6 +99,7 @@ export function Home() {
               setCurrentDate(day.date);
               setIsOpen(true);
             }}
+            className="day-card"
           >
             <IonCardHeader color={day.fake ? "light" : "primary"}>
               <IonCardTitle>
@@ -123,7 +129,7 @@ export function Home() {
                               <>
                                 <h3>{formatSleepDuration(day)} de sommeil</h3>
                                 <div
-                                  className="progress"
+                                  className="progress addiction-background"
                                   style={{
                                     width:
                                       (sleepDuration(day) / (24 * 60)) * 100 +
@@ -134,7 +140,16 @@ export function Home() {
                             )}
                           </IonCol>
                         </IonRow>
-                        {day.with_hypnotic && <IonRow>avec hypnotique</IonRow>}
+                        {day.with_hypnotic && (
+                          <IonRow className="hypnotic">
+                            <IonCol>
+                              <IonImg src="/hypnotics.png" />
+                            </IonCol>
+                            <IonCol size="10">
+                              Hypnotique à {day.hypnotic.replace(":", "h")}
+                            </IonCol>
+                          </IonRow>
+                        )}
                       </IonCol>
                     </IonRow>
                   )}
@@ -198,7 +213,7 @@ function AddictionRow({ addiction, day }: { addiction: Addiction; day: Day }) {
               {dayAddiction.value / 100} {addiction.unit}
             </h3>
             <div
-              className="progress"
+              className="progress addiction-background"
               style={{
                 width: dayAddiction.value / addiction.max + "%",
               }}
@@ -206,34 +221,15 @@ function AddictionRow({ addiction, day }: { addiction: Addiction; day: Day }) {
           </IonCol>
         </IonRow>
         <IonRow>
-          <IonCol>
-            <IonImg
-              src={
-                dayAddiction.morning ? "/morning-on.png" : "/morning-off.png"
-              }
-            />
-          </IonCol>
-          <IonCol>
-            <IonImg
-              src={
-                dayAddiction.afternoon
-                  ? "/afternoon-on.png"
-                  : "/afternoon-off.png"
-              }
-            />
-          </IonCol>
-          <IonCol>
-            <IonImg
-              src={
-                dayAddiction.evening ? "/evening-on.png" : "/evening-off.png"
-              }
-            />
-          </IonCol>
-          <IonCol>
-            <IonImg
-              src={dayAddiction.night ? "/night-on.png" : "/night-off.png"}
-            />
-          </IonCol>
+          {periods.map((period) => (
+            <IonCol key={period.id}>
+              <IonImg
+                src={`/${period.id}-${
+                  dayAddiction[period.id] ? "on" : "off"
+                }.png`}
+              />
+            </IonCol>
+          ))}
           <IonCol size="3"></IonCol>
         </IonRow>
       </IonCol>

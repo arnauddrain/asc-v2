@@ -56,11 +56,11 @@ ion-grid {
   padding: 0;
 }
 
-ion-grid > ion-row {
+.day-card ion-grid > ion-row {
   border-bottom: 1px solid #dddedd;
 }
 
-ion-grid > ion-row:last-child {
+.day-card ion-grid > ion-row:last-child {
   border-bottom: none;
 }
 
@@ -81,79 +81,153 @@ h3 {
   margin-top: 5px;
 }
 
-.sleep {
+.day-card .sleep {
   color: var(--sleep) !important;
 }
-.sleep .progress {
+.sleep ion-range {
+  --bar-background-active: var(--sleep);
+}
+.sleep .addiction-background {
   background-color: var(--sleep);
 }
 
-.screen {
+.day-card .screen {
   color: var(--screen) !important;
 }
-.screen .progress {
+.screen ion-range {
+  --bar-background-active: var(--screen);
+}
+.screen .addiction-background {
   background-color: var(--screen);
 }
 
-.games {
+.day-card .games {
   color: var(--games) !important;
 }
-.games .progress {
+.games ion-range {
+  --bar-background-active: var(--games);
+}
+.games .addiction-background {
   background-color: var(--games);
 }
 
-.food {
+.day-card .food {
   color: var(--food) !important;
 }
-.food .progress {
+.food ion-range {
+  --bar-background-active: var(--food);
+}
+.food .addiction-background {
   background-color: var(--food);
 }
 
-.expenses {
+.day-card .expenses {
   color: var(--expenses) !important;
 }
-.expenses .progress {
+.expenses ion-range {
+  --bar-background-active: var(--expenses);
+}
+.expenses .addiction-background {
   background-color: var(--expenses);
 }
 
-.tobacco {
+.day-card .tobacco {
   color: var(--tobacco) !important;
 }
-.tobacco .progress {
+.tobacco ion-range {
+  --bar-background-active: var(--tobacco);
+}
+.tobacco .addiction-background {
   background-color: var(--tobacco);
 }
 
-.alcohol {
+.day-card .alcohol {
   color: var(--alcohol) !important;
 }
-.alcohol .progress {
+.alcohol ion-range {
+  --bar-background-active: var(--alcohol);
+}
+.alcohol .addiction-background {
   background-color: var(--alcohol);
 }
 
-.cannabis {
+.day-card .cannabis {
   color: var(--cannabis) !important;
 }
-.cannabis .progress {
+.cannabis ion-range {
+  --bar-background-active: var(--cannabis);
+}
+.cannabis .addiction-background {
   background-color: var(--cannabis);
 }
 
-.cocaine {
+.day-card .cocaine {
   color: var(--cocaine) !important;
 }
-.cocaine .progress {
+.cocaine ion-range {
+  --bar-background-active: var(--cocaine);
+}
+.cocaine .addiction-background {
   background-color: var(--cocaine);
 }
 
-.other {
+.day-card .other {
   color: var(--other) !important;
 }
-.other .progress {
+.other ion-range {
+  --bar-background-active: var(--other);
+}
+.other .addiction-background {
   background-color: var(--other);
 }
 
-.note {
+.hypnotic {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.hypnotic > ion-col {
+  display: flex;
+  align-items: center;
+}
+
+.day-card .note {
   color: var(--note) !important;
 }
-.note .progress {
+.note .addiction-background {
   background-color: var(--note);
+}
+
+/* old style from the previous app, can be simplified */
+.addiction-card > ion-card-header {
+  background-size: cover;
+  background-position: center;
+  height: 150px;
+  position: relative;
+  color: white;
+  display: flex;
+  justify-content: start;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.periods ion-col {
+  text-align: center;
+}
+
+.periods ion-img {
+  width: 30px;
+  margin: auto;
+}
+
+.sleeptime-format {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.night-breaks > * {
+  border-bottom: 1px solid #dddedd;
 }
