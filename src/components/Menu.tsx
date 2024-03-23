@@ -17,6 +17,7 @@ import { AboutModal } from "../modals/AboutModal";
 import { NotificationsModal } from "../modals/NotificationsModal";
 import { Day } from "../models/days";
 import { EmailComposer } from "capacitor-email-composer";
+import { AgendaModel } from "../modals/AgendaModal";
 
 const Menu: React.FC = () => {
   const { preferences, setPreferences } = useContext(PreferencesContext);
@@ -160,6 +161,7 @@ const Menu: React.FC = () => {
           })}
         </IonList>
         <IonList>
+          <IonItem id="open-agenda-modal">Agenda de sommeil</IonItem>
           <IonItem id="open-notifications-modal">Notifications</IonItem>
           <IonItem id="open-about-modal">À propos</IonItem>
           <IonItem onClick={exportCSV}>Exporter</IonItem>
@@ -168,6 +170,7 @@ const Menu: React.FC = () => {
       {/* The modals should probably be pages but :shrug: */}
       <NotificationsModal />
       <AboutModal />
+      <AgendaModel />
     </IonMenu>
   );
 };

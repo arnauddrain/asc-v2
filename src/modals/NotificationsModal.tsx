@@ -40,7 +40,7 @@ export function NotificationsModal() {
     storageSet("notifications", false);
   }
 
-  async function triggerNotification() {
+  async function triggerNotification(notificationTime: string) {
     await LocalNotifications.cancel({ notifications: [{ id: 42 }, { id: 0 }] });
     await LocalNotifications.schedule({
       notifications: [
@@ -79,15 +79,13 @@ export function NotificationsModal() {
     }
     setNotifications(value);
     storageSet("notifications", value);
-    triggerNotification();
+    triggerNotification(notificationTime);
   }
 
   async function saveTime(value: string) {
     setNotificationTime(value);
     storageSet("notificationTime", value);
-    if (notifications) {
-      triggerNotification();
-    }
+    triggerNotification(value);
   }
 
   return (
