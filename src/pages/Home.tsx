@@ -4,10 +4,12 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
+  IonCardTitle,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
+  IonImg,
   IonMenuButton,
   IonPage,
   IonRow,
@@ -16,7 +18,7 @@ import {
 } from "@ionic/react";
 import { useContext, useEffect, useState } from "react";
 import { storageGet, storageSet } from "../models/storage";
-import { Day } from "../models/days";
+import { Day, formatSleepDuration, sleepDuration } from "../models/days";
 import { frenchMonth, storageDate } from "../libs/date";
 import { EditDayModal } from "../modals/EditDayModal";
 import { PreferencesContext } from "../App";
@@ -94,27 +96,46 @@ export function Home() {
             }}
           >
             <IonCardHeader color={day.fake ? "light" : "primary"}>
-              Journée et nuit du {day.date.split("-")[2]}{" "}
-              {frenchMonth(parseInt(day.date.split("-")[1]) - 1)}
+              <IonCardTitle>
+                Journée et nuit du {day.date.split("-")[2]}{" "}
+                {frenchMonth(parseInt(day.date.split("-")[1]) - 1)}
+              </IonCardTitle>
             </IonCardHeader>
-            <IonCardContent class="ion-text-center">
+            <IonCardContent class={`${day.fake ? "ion-text-center" : ""}`}>
               {day.fake ? (
-                <IonButton>Remplir maintenant</IonButton>
+                <IonButton className="ion-margin">Remplir maintenant</IonButton>
               ) : (
                 <IonGrid>
                   {preferences?.sleep && (
-                    <IonRow>
-                      <IonCol>Sommeil</IonCol>
-                      <IonCol>
-                        {!day.sleep_filled ? (
-                          <i>Non rempli</i>
-                        ) : day.sleepless ? (
-                          <i>Nuit Blanche</i>
-                        ) : (
-                          <div>Du sommeil et une barre</div>
-                        )}
+                    <IonRow className="sleep">
+                      <IonCol size="3" className="addiction-name">
+                        <IonImg src="/sleep.png" />
+                        Sommeil
                       </IonCol>
-                      {day.with_hypnotic && <IonRow>avec hypnotique</IonRow>}
+                      <IonCol size="9">
+                        <IonRow>
+                          <IonCol>
+                            {!day.sleep_filled ? (
+                              <i>Non rempli</i>
+                            ) : day.sleepless ? (
+                              <i>Nuit Blanche</i>
+                            ) : (
+                              <>
+                                <h3>{formatSleepDuration(day)} de sommeil</h3>
+                                <div
+                                  className="progress"
+                                  style={{
+                                    width:
+                                      (sleepDuration(day) / (24 * 60)) * 100 +
+                                      "%",
+                                  }}
+                                ></div>
+                              </>
+                            )}
+                          </IonCol>
+                        </IonRow>
+                        {day.with_hypnotic && <IonRow>avec hypnotique</IonRow>}
+                      </IonCol>
                     </IonRow>
                   )}
                   {addictions.map(
@@ -129,8 +150,10 @@ export function Home() {
                   )}
                   {day.note && (
                     <IonRow>
-                      <IonCol>Note</IonCol>
-                      <IonCol>{day.note}</IonCol>
+                      <IonCol size="3" className="note addiction-name">
+                        <IonImg src="/note.png" /> Note
+                      </IonCol>
+                      <IonCol size="9">{day.note}</IonCol>
                     </IonRow>
                   )}
                 </IonGrid>
@@ -163,10 +186,56 @@ function AddictionRow({ addiction, day }: { addiction: Addiction; day: Day }) {
   }
 
   return (
-    <IonRow key={addiction.id}>
-      <IonCol>{addiction.name}</IonCol>
-      <IonCol>
-        {dayAddiction.value / 100} {addiction.unit}
+    <IonRow key={addiction.id} className={addiction.id}>
+      <IonCol size="3" className="addiction-name">
+        <IonImg src={`/${addiction.id}.png`} />
+        {addiction.name}
+      </IonCol>
+      <IonCol size="9">
+        <IonRow>
+          <IonCol>
+            <h3>
+              {dayAddiction.value / 100} {addiction.unit}
+            </h3>
+            <div
+              className="progress"
+              style={{
+                width: dayAddiction.value / addiction.max + "%",
+              }}
+            ></div>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonImg
+              src={
+                dayAddiction.morning ? "/morning-on.png" : "/morning-off.png"
+              }
+            />
+          </IonCol>
+          <IonCol>
+            <IonImg
+              src={
+                dayAddiction.afternoon
+                  ? "/afternoon-on.png"
+                  : "/afternoon-off.png"
+              }
+            />
+          </IonCol>
+          <IonCol>
+            <IonImg
+              src={
+                dayAddiction.evening ? "/evening-on.png" : "/evening-off.png"
+              }
+            />
+          </IonCol>
+          <IonCol>
+            <IonImg
+              src={dayAddiction.night ? "/night-on.png" : "/night-off.png"}
+            />
+          </IonCol>
+          <IonCol size="3"></IonCol>
+        </IonRow>
       </IonCol>
     </IonRow>
   );

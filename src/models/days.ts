@@ -74,3 +74,42 @@ export async function getDay(date: string) {
   const day = days.find((day) => day.date === date);
   return day ? day : createDay(date);
 }
+
+export function sleepDuration(day: Day) {
+  if (!day.sleep_filled || day.sleepless) {
+    return 0;
+  }
+  const startTime = day.bedtime.split(":").map(Number);
+  const endTime = day.waking.split(":").map(Number);
+  let time = endTime[1] - startTime[1];
+  time += endTime[0] * 60 - startTime[0] * 60;
+  if (
+    endTime[0] < startTime[0] ||
+    (endTime[0] === startTime[0] && endTime[1] < startTime[1])
+  ) {
+    time += 24 * 60;
+  }
+  day.nightBreaks.forEach((nightBreak) => {
+    if (nightBreak.type === 0) {
+      time -= nightBreak.duration;
+    } else {
+      time += nightBreak.duration;
+    }
+  });
+  time -= day.bedtime_duration;
+  return time;
+}
+
+export function formatSleepDuration(day: Day) {
+  const sleep = sleepDuration(day);
+  const hour = Math.floor(sleep / 60);
+  const minutes = sleep % 60;
+  let time = hour + "h";
+  if (minutes > 0) {
+    if (minutes < 10) {
+      time += "0";
+    }
+    time += minutes;
+  }
+  return time;
+}

@@ -3,9 +3,8 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 :root {
-  
   --ion-background-color: white;
-  --ion-background-color-rgb: 255,255,255;
+  --ion-background-color-rgb: 255, 255, 255;
 
   --ion-color-primary: #1f83b3;
 
@@ -13,10 +12,148 @@ http://ionicframework.com/docs/theming/ */
 
   --opacity-scale: 1;
   --opacity: 1;
+
+  --sleep: #1f83b3;
+  --screen: #e9cf48;
+  --games: #52b360;
+  --food: #e9cf48;
+  --expenses: #8c91c8;
+  --tobacco: #f39b80;
+  --alcohol: #ed8d4b;
+  --cannabis: #52b360;
+  --cocaine: #b3569c;
+  --other: #8c91c8;
+  --note: #6ac5ea;
 }
 
 html {
   /* For more information on dynamic font scaling, visit the documentation: 
   https://ionicframework.com/docs/layout/dynamic-font-scaling */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
+}
+
+ion-card-header {
+  padding: 10px 16px;
+}
+
+ion-card-title {
+  font-size: 16px;
+}
+
+ion-card-header.ion-color-light {
+  background-color: #dddedd !important;
+}
+
+.ion-color-light ion-card-title {
+  color: white !important;
+}
+
+ion-card-content {
+  padding: 0 !important;
+}
+
+ion-grid {
+  padding: 0;
+}
+
+ion-grid > ion-row {
+  border-bottom: 1px solid #dddedd;
+}
+
+ion-grid > ion-row:last-child {
+  border-bottom: none;
+}
+
+.addiction-name {
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+.progress {
+  height: 18px;
+  border-radius: 9px;
+  margin-top: 5px;
+}
+
+.sleep {
+  color: var(--sleep) !important;
+}
+.sleep .progress {
+  background-color: var(--sleep);
+}
+
+.screen {
+  color: var(--screen) !important;
+}
+.screen .progress {
+  background-color: var(--screen);
+}
+
+.games {
+  color: var(--games) !important;
+}
+.games .progress {
+  background-color: var(--games);
+}
+
+.food {
+  color: var(--food) !important;
+}
+.food .progress {
+  background-color: var(--food);
+}
+
+.expenses {
+  color: var(--expenses) !important;
+}
+.expenses .progress {
+  background-color: var(--expenses);
+}
+
+.tobacco {
+  color: var(--tobacco) !important;
+}
+.tobacco .progress {
+  background-color: var(--tobacco);
+}
+
+.alcohol {
+  color: var(--alcohol) !important;
+}
+.alcohol .progress {
+  background-color: var(--alcohol);
+}
+
+.cannabis {
+  color: var(--cannabis) !important;
+}
+.cannabis .progress {
+  background-color: var(--cannabis);
+}
+
+.cocaine {
+  color: var(--cocaine) !important;
+}
+.cocaine .progress {
+  background-color: var(--cocaine);
+}
+
+.other {
+  color: var(--other) !important;
+}
+.other .progress {
+  background-color: var(--other);
+}
+
+.note {
+  color: var(--note) !important;
+}
+.note .progress {
+  background-color: var(--note);
 }
