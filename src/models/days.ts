@@ -1,6 +1,11 @@
 import { Preferences, addictions } from "./addictions";
 import { storageGet, storageSet } from "./storage";
 
+export enum NightBreaksType {
+  WAKE_UP = 0,
+  NAP = 1,
+}
+
 export interface Day {
   bedtime: string;
   bedtime_duration: number;

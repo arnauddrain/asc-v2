@@ -15,9 +15,10 @@ import { storageGet, storageSet } from "../models/storage";
 import { PreferencesContext } from "../App";
 import { AboutModal } from "../modals/AboutModal";
 import { NotificationsModal } from "../modals/NotificationsModal";
-import { Day } from "../models/days";
+import { Day, NightBreaksType } from "../models/days";
 import { EmailComposer } from "capacitor-email-composer";
 import { AgendaModel } from "../modals/AgendaModal";
+import { formatNightBreak } from "../libs/date";
 
 const Menu: React.FC = () => {
   const { preferences, setPreferences } = useContext(PreferencesContext);
@@ -49,6 +50,8 @@ const Menu: React.FC = () => {
       "heure de réveil",
       "durée avant lever",
       "hypnotique",
+      "siestes",
+      "réveils",
     ];
     addictions.forEach((addiction) => {
       if (preferences && preferences[addiction.id]) {
@@ -59,6 +62,7 @@ const Menu: React.FC = () => {
         fields.push("nuit");
       }
     });
+    fields.push("note");
 
     let csv = fields.join(";") + "\n";
 
@@ -79,6 +83,16 @@ const Menu: React.FC = () => {
       } else {
         csv += "non;;;;;;;";
       }
+      csv +=
+        day.nightBreaks
+          .filter((nb) => nb.type === NightBreaksType.NAP)
+          .map((nb) => formatNightBreak(nb))
+          .join(" - ") + ";";
+      csv +=
+        day.nightBreaks
+          .filter((nb) => nb.type === NightBreaksType.WAKE_UP)
+          .map((nb) => formatNightBreak(nb))
+          .join(" - ") + ";";
       addictions.forEach((addiction) => {
         if (preferences && preferences[addiction.id]) {
           const dayAddiction = day.dayAddictions.find(
@@ -93,7 +107,7 @@ const Menu: React.FC = () => {
             csv += ";;;;;";
           } else {
             csv +=
-              dayAddiction.value +
+              dayAddiction.value / 100 +
               ";" +
               (dayAddiction.morning ? "oui;" : "non;") +
               (dayAddiction.afternoon ? "oui;" : "non;") +
@@ -102,9 +116,11 @@ const Menu: React.FC = () => {
           }
         }
       });
+      csv += day.note + ";";
       csv += "\n";
     });
 
+    console.log(csv);
     const email = {
       attachments: [
         {
